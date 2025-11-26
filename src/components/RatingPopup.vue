@@ -42,6 +42,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { sendRating } from "@/api/system";
 
 const visible = ref(false);
 const score = ref(0);
@@ -65,17 +66,16 @@ function close() {
 }
 
 async function submitRating() {
-  // TODO: 接入你的 API
-  // await api.sendRating({ score: score.value });
-
-  visible.value = false;
+  try {
+    await sendRating({ score: score.value });
+    visible.value = false;
+  } catch (e) {
+    console.log(e);
+  }
 }
-
 onMounted(() => {
   const again = canShowAgain()
   const shouldShowed = shouldShow()
-  console.log(again)
-  console.log(shouldShowed)
   if (again && shouldShowed) {
     visible.value = true;
     markShown();

@@ -17,6 +17,14 @@
     >
       批量导入
     </van-tabbar-item>
+    <van-tabbar-item
+      v-if="isAdmin"
+      replace
+      to="/stat"
+      icon="chart-trending-o"
+    >
+      统计
+    </van-tabbar-item>
   </van-tabbar>
 </template>
 

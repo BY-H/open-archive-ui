@@ -4,12 +4,14 @@ import Import from '../views/Import.vue'
 import Login from '../views/Login.vue'
 import BatchImport from '../views/BatchImport.vue'
 import Register from '../views/Register.vue'
+import Stat from '../views/Stat.vue'
 
 const routes = [
   { path: '/login', name: 'login', component: Login },
   { path: '/register', name: 'register', component: Register },
   { path: '/', redirect: '/query' },
   { path: '/query', name: 'query', component: Query, meta: { requiresAuth: true } },
+  { path: '/stat', name: 'stat', component: Stat, meta: { requiresAuth: true } },
   { path: '/import', name: 'import', component: Import, meta: { requiresAuth: true } },
   { path: '/batch_import', name: 'batchImport', component: BatchImport, meta: { requiresAuth: true } },
 ]
