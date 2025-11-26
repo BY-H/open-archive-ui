@@ -1,15 +1,18 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h2 class="title">系统登录</h2>
+      <h2 class="title">用户注册</h2>
 
       <van-form @submit="onSubmit">
+        <!-- 用户名 -->
         <van-field
           v-model="username"
           label="用户"
           placeholder="请输入用户名"
           label-width="60"
         />
+
+        <!-- 密码 -->
         <van-field
           v-model="password"
           type="password"
@@ -18,66 +21,63 @@
           label-width="60"
         />
 
+        <!-- 邀请码，可为空（为空则普通用户） -->
+        <van-field
+          v-model="inviteCode"
+          label="邀请码"
+          placeholder="如需注册管理员，请输入邀请码"
+          label-width="60"
+        />
+
         <div class="button-area">
           <van-button round block type="primary" native-type="submit">
-            登 录
+            注 册
           </van-button>
         </div>
+
+        <div class="link-area">
+          <span @click="goLogin">已有账号？去登录</span>
+        </div>
       </van-form>
-
-      <!-- 🎯 新增：跳转到注册 -->
-      <div class="link-area">
-        <span @click="goRegister">还没有账号？去注册</span>
-      </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { login } from '@/api/users'
 import { showToast } from 'vant'
+import { useRouter } from 'vue-router'
+import { register } from '@/api/users'
 
-const router = useRouter()
 const username = ref('')
 const password = ref('')
+const inviteCode = ref('')
+
+const router = useRouter()
 
 const onSubmit = async () => {
   if (!username.value || !password.value) {
-    return showToast({ type: 'fail', message: "请输入用户名和密码" })
+    return showToast({ type: 'fail', message: '请输入用户名和密码' })
   }
 
   try {
-    const res = await login({
+    const res = await register({
       username: username.value,
-      password: password.value
+      password: password.value,
+      invite_code: inviteCode.value
     })
 
-    const token = res.token
-    if (!token) {
-      return showToast({ type: 'fail', message: "后端未返回 token" })
-    }
-
-    localStorage.setItem('token', token)
-    localStorage.setItem('role', res.role)
-
-    showToast("登录成功")
+    showToast('注册成功')
 
     setTimeout(() => {
-      router.push('/query')
-    }, 500)
-
+      router.push('/login')
+    }, 600)
   } catch (err) {
-    console.error(err)
-    showToast({ type: 'fail', message: "登录失败，请检查用户名或密码" })
+    showToast({ type: 'fail', message: err.message || '注册失败' })
   }
 }
 
-const goRegister = () => {
-  router.push('/register')
-}
+const goLogin = () => router.push('/login')
 </script>
 
 <style scoped>

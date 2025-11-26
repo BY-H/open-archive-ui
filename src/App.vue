@@ -2,6 +2,7 @@
   <div class="app-container">
     <router-view />
     <TabBar v-if="showTabBar" />
+    <RatingPopup />
   </div>
 </template>
 
@@ -9,9 +10,10 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import TabBar from './components/TabBar.vue'
+import RatingPopup from "@/components/RatingPopup.vue";
 
 const route = useRoute()
-const showTabBar = computed(() => route.path !== '/login')
+const showTabBar = computed(() => route.path !== '/login' && route.path !== '/register')
 </script>
 
 <style>

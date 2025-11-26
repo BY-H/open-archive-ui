@@ -3,9 +3,11 @@ import Query from '../views/Query.vue'
 import Import from '../views/Import.vue'
 import Login from '../views/Login.vue'
 import BatchImport from '../views/BatchImport.vue'
+import Register from '../views/Register.vue'
 
 const routes = [
   { path: '/login', name: 'login', component: Login },
+  { path: '/register', name: 'register', component: Register },
   { path: '/', redirect: '/query' },
   { path: '/query', name: 'query', component: Query, meta: { requiresAuth: true } },
   { path: '/import', name: 'import', component: Import, meta: { requiresAuth: true } },
